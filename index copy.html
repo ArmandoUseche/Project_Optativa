@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUWA - Conservación de Semillas</title>
+  <link href="./src/css/output.css" rel="stylesheet">
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    @keyframes pageFlip {
+      0% {
+        transform: rotateY(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: rotateY(-90deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: rotateY(-180deg);
+        opacity: 0;
+      }
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .animate-slide-in {
+      animation: slideIn 0.8s ease-out forwards;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    .shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      background-size: 1000px 100%;
+      animation: shimmer 2s infinite;
+    }
+    .image-stack {
+      position: relative;
+      perspective: 1500px;
+      height: 450px;
+      width: 100%;
+    }
+    .image-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+    .image-layer.flipping {
+      animation: pageFlip 1.5s ease-in-out forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-lime-50 to-teal-50">
+  
+  <nav class="bg-white/90 backdrop-blur-md shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3 group cursor-pointer">
+        </div>
+        
+        <div class="hidden md:flex relative flex-1 max-w-md mx-8">
+          <input 
+            type="text" 
+            placeholder="Buscar productos, semillas..." 
+            class="w-full pl-12 pr-4 py-3 rounded-full border-2 border-gray-300 focus:border-teal-600 transition-all duration-300 focus:shadow-lg outline-none bg-white"
+          />
+          <svg class="absolute left-4 top-3.5 w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#inicio" class="text-gray-700 hover:text-teal-600 font-medium transition-colors">Inicio</a>
+          <a href="#sobre" class="text-gray-700 hover:text-teal-600 font-medium transition-colors">Sobre Nosotros</a>
+          <a href="#productos" class="text-gray-700 hover:text-teal-600 font-medium transition-colors">Productos</a>
+          <a href="#galeria" class="text-gray-700 hover:text-teal-600 font-medium transition-colors">Galería</a>
+          
+          <svg class="w-7 h-7 text-gray-600 hover:text-red-500 hover:scale-110 transition-all cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
+          
+          <svg class="w-7 h-7 text-gray-600 hover:text-teal-600 hover:scale-110 transition-all cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          
+          <a href="#contacto" class="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105">Contacto</a>
+        </div>
+
+        <button class="md:hidden text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section id="inicio" class="relative overflow-hidden bg-gradient-to-br from-lime-100 via-green-50 to-emerald-50">
+
+    <div class="absolute top-20 left-20 w-32 h-32 bg-yellow-300 rounded-full blur-3xl opacity-40 animate-pulse"></div>
+    <div class="absolute top-40 right-40 w-40 h-40 bg-blue-300 rounded-full blur-3xl opacity-30 animate-float"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 py-16 relative">
+      <div class="bg-gradient-to-br from-lime-200/50 to-green-200/50 rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-xl">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 animate-slide-in order-2 md:order-1">
+            <div class="relative inline-block">
+              <div class="absolute -left-12 -top-8 w-24 h-24 bg-yellow-300 rounded-full blur-2xl opacity-60 animate-pulse"></div>
+              <h1 class="text-5xl md:text-6xl font-bold leading-tight relative">
+                <span class="text-gray-800">Sembrando el</span><br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-600 italic" style="font-family: cursive;">Futuro</span>
+              </h1>
+              <div class="absolute -top-6 right-0 opacity-70">
+                <svg class="w-20 h-12 text-blue-300" fill="currentColor" viewBox="0 0 100 50">
+                  <ellipse cx="25" cy="25" rx="25" ry="15"/>
+                  <ellipse cx="50" cy="20" rx="30" ry="18"/>
+                  <ellipse cx="75" cy="25" rx="25" ry="15"/>
+                </svg>
+              </div>
+            </div>
+            
+            <p class="text-lg text-gray-700 leading-relaxed max-w-xl">
+              Conservamos y difundimos el valioso patrimonio genético de las semillas, protegiendo la biodiversidad para las próximas generaciones.
+            </p>
+            
+            
+            <div class="flex gap-4 flex-wrap">
+              <button class="relative bg-yellow-300 hover:bg-yellow-400 px-8 py-4 rounded-full font-bold text-gray-800 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl overflow-hidden group">
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-0"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-45"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-90"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-[135deg]"></div>
+                </div>
+                <span class="relative z-10">Conocenos</span>
+              </button>
+              
+              <button class="relative bg-yellow-300 hover:bg-yellow-400 px-8 py-4 rounded-full font-bold text-gray-800 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl overflow-hidden group">
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-0"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-45"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-90"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-[135deg]"></div>
+                </div>
+                <span class="relative z-10">Productos</span>
+              </button>
+              
+              <button class="relative bg-yellow-300 hover:bg-yellow-400 px-8 py-4 rounded-full font-bold text-gray-800 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl overflow-hidden group">
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-0"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-45"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-90"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-[135deg]"></div>
+                </div>
+                <span class="relative z-10">Tendencias</span>
+              </button>
+              
+              <button class="relative bg-yellow-300 hover:bg-yellow-400 px-8 py-4 rounded-full font-bold text-gray-800 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl overflow-hidden group">
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-0"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-45"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-90"></div>
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-8 bg-yellow-400 rotate-[135deg]"></div>
+                </div>
+                <span class="relative z-10">Contactanos</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="relative animate-float delay-2 order-1 md:order-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-3xl blur-3xl opacity-20"></div>
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=600&fit=crop" alt="Vegetales frescos" class="relative rounded-3xl shadow-2xl w-full h-[450px] object-cover transform hover:scale-105 transition-transform duration-500">
+              <div class="absolute -top-4 -right-4 w-16 h-16 bg-orange-400 rounded-full shadow-lg animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-20 bg-gradient-to-br from-lime-100 to-yellow-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="relative">
+          <div class="absolute top-4 right-4 z-10">
+            <div class="flex items-center gap-2">
+              <svg class="w-6 h-6 text-yellow-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="text-2xl font-bold text-gray-800 italic">Tendencias</span>
+            </div>
+            <svg class="w-8 h-10 text-green-600 absolute -top-2 -right-8" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+            </svg>
+          </div>
+          
+          <div class="image-stack rounded-3xl shadow-2xl">
+            
+            <div class="image-layer rounded-3xl" id="layer4" style="z-index: 4;">
+              <div class="absolute inset-0 bg-yellow-400 rounded-3xl shadow-xl" style="transform: translateX(80px) translateY(-80px);"></div>
+              <div class="absolute inset-0 bg-lime-300 rounded-3xl shadow-xl" style="transform: translateX(50px) translateY(-50px);"></div>
+              <div class="absolute inset-0 bg-green-100 rounded-3xl shadow-xl" style="transform: translateX(25px) translateY(-25px);"></div>
+              <div class="absolute inset-0 bg-teal-700 rounded-3xl overflow-hidden shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=600&fit=crop" alt="Agricultura sostenible" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            
+            <div class="image-layer rounded-3xl" id="layer3" style="z-index: 3;">
+              <div class="absolute inset-0 bg-yellow-400 rounded-3xl shadow-xl" style="transform: translateX(80px) translateY(-80px);"></div>
+              <div class="absolute inset-0 bg-lime-300 rounded-3xl shadow-xl" style="transform: translateX(50px) translateY(-50px);"></div>
+              <div class="absolute inset-0 bg-green-100 rounded-3xl shadow-xl" style="transform: translateX(25px) translateY(-25px);"></div>
+              <div class="absolute inset-0 bg-emerald-700 rounded-3xl overflow-hidden shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=600&fit=crop" alt="Semillas orgánicas" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            <div class="image-layer rounded-3xl" id="layer2" style="z-index: 2;">
+              <div class="absolute inset-0 bg-yellow-400 rounded-3xl shadow-xl" style="transform: translateX(80px) translateY(-80px);"></div>
+              <div class="absolute inset-0 bg-lime-300 rounded-3xl shadow-xl" style="transform: translateX(50px) translateY(-50px);"></div>
+              <div class="absolute inset-0 bg-green-100 rounded-3xl shadow-xl" style="transform: translateX(25px) translateY(-25px);"></div>
+              <div class="absolute inset-0 bg-green-700 rounded-3xl overflow-hidden shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=600&fit=crop" alt="Huerta urbana" class="w-full h-full object-cover">
+              </div>
+            </div>
+
+            
+            <div class="image-layer rounded-3xl" id="layer1" style="z-index: 1;">
+              <div class="absolute inset-0 bg-yellow-400 rounded-3xl shadow-xl" style="transform: translateX(80px) translateY(-80px);"></div>
+              <div class="absolute inset-0 bg-lime-300 rounded-3xl shadow-xl" style="transform: translateX(50px) translateY(-50px);"></div>
+              <div class="absolute inset-0 bg-green-100 rounded-3xl shadow-xl" style="transform: translateX(25px) translateY(-25px);"></div>
+              <div class="absolute inset-0 bg-lime-700 rounded-3xl overflow-hidden shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&h=600&fit=crop" alt="Biodiversidad" class="w-full h-full object-cover">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="space-y-6">
+          <ul class="space-y-8 text-lg">
+            <li class="flex items-start gap-4 animate-fade-in">
+              <span class="text-2xl mt-1">•</span>
+              <span class="text-gray-700 font-medium leading-relaxed">AGRICULTURA URBANA Y HUERTAS CASERAS</span>
+            </li>
+            <li class="flex items-start gap-4 animate-fade-in delay-1">
+              <span class="text-2xl mt-1">•</span>
+              <span class="text-gray-700 font-medium leading-relaxed">SOSTENIBILIDAD</span>
+            </li>
+            <li class="flex items-start gap-4 animate-fade-in delay-2">
+              <span class="text-2xl mt-1">•</span>
+              <span class="text-gray-700 font-medium leading-relaxed">EDUCACIÓN AMBIENTAL</span>
+            </li>
+            <li class="flex items-start gap-4 animate-fade-in delay-3">
+              <span class="text-2xl mt-1">•</span>
+              <span class="text-gray-700 font-medium leading-relaxed">DIGITALIZACIÓN</span>
+            </li>
+            <li class="flex items-start gap-4 animate-fade-in delay-4">
+              <span class="text-2xl mt-1">•</span>
+              <span class="text-gray-700 font-medium leading-relaxed">PERSONALIZACIÓN DEL PRODUCTO</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="contacto" class="py-20 bg-gradient-to-br from-teal-600 to-emerald-700 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-lime-400/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-7xl mx-auto px-6 relative">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+       
+        <div class="flex items-center justify-center">
+          <div class="relative">
+            <svg class="w-12 h-12 text-yellow-400 absolute -top-6 -left-6 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+            </svg>
+            <div class="text-[200px] font-black text-teal-900/40 leading-none">
+              Suwa
+            </div>
+            <svg class="w-12 h-12 text-yellow-400 absolute -bottom-6 -right-6 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+            </svg>
+            <h2 class="text-4xl font-bold text-white text-center mt-4 italic">Contáctanos</h2>
+          </div>
+        </div>
+
+        
+        <div class="bg-teal-800/50 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
+          <form class="space-y-6">
+            <div>
+              <label class="block text-lime-200 text-sm font-medium mb-2">Nombre</label>
+              <input type="text" class="w-full bg-teal-900/50 border-2 border-lime-400/30 rounded-xl px-4 py-3 text-white placeholder-lime-200/50 focus:border-lime-400 focus:outline-none transition-colors" placeholder="Tu nombre">
+            </div>
+            <div>
+              <label class="block text-lime-200 text-sm font-medium mb-2">Correo Electrónico</label>
+              <input type="email" class="w-full bg-teal-900/50 border-2 border-lime-400/30 rounded-xl px-4 py-3 text-white placeholder-lime-200/50 focus:border-lime-400 focus:outline-none transition-colors" placeholder="tu@email.com">
+            </div>
+            <div>
+              <label class="block text-lime-200 text-sm font-medium mb-2">¿Cómo nos conociste?</label>
+              <input type="text" class="w-full bg-teal-900/50 border-2 border-lime-400/30 rounded-xl px-4 py-3 text-white placeholder-lime-200/50 focus:border-lime-400 focus:outline-none transition-colors" placeholder="Redes sociales, amigos, etc.">
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-teal-900 font-bold py-4 rounded-full hover:shadow-2xl transition-all duration-300 hover:scale-105">
+              ENVIAR MENSAJE
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <footer class="bg-gradient-to-br from-lime-300 to-green-400 py-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col items-center gap-8">
+        <h2 class="text-5xl font-bold text-teal-700 italic">Suwa</h2>
+        <div class="flex gap-8 items-center">
+          <a href="https://wa.me/" target="_blank" class="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" class="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <svg class="w-8 h-8 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="https://facebook.com" target="_blank" class="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">
+            <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+        </div>
+        <div class="text-center text-teal-800">
+          <p class="font-medium">&copy; 2024 SUWA. Todos los derechos reservados.</p>
+          <p class="text-sm mt-2">Conservando semillas, sembrando futuro.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentLayer = 4;
+    const totalLayers = 4;
+    let isAnimating = false;
+
+    function flipPage() {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const layer = document.getElementById(`layer${currentLayer}`);
+      layer.classList.add('flipping');
+      
+      setTimeout(() => {
+        layer.classList.remove('flipping');
+        layer.style.transform = 'rotateY(0deg)';
+        layer.style.opacity = '1';
+        
+        const oldZIndex = parseInt(layer.style.zIndex);
+        for (let i = 1; i <= totalLayers; i++) {
+          const l = document.getElementById(`layer${i}`);
+          const z = parseInt(l.style.zIndex);
+          if (z < oldZIndex) {
+            l.style.zIndex = z + 1;
+          }
+        }
+        layer.style.zIndex = '1';
+        
+        currentLayer--;
+        if (currentLayer < 1) {
+          currentLayer = totalLayers;
+        }
+        
+        isAnimating = false;
+      }, 1500);
+    }
+
+    setTimeout(() => {
+      setInterval(flipPage, 3500);
+    }, 1000);
+  </script>
+
+</body>
+</html>
